@@ -1,3 +1,9 @@
+### binutils ###
+.o
+.elf
+.img
+
+
 ### macOS ###
 # General
 .DS_Store
