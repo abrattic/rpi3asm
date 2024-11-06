@@ -10,21 +10,21 @@
 .equ GPIO_21, 0x200000
 
 _start:
-	ldr r0, =GPIO_BASE
+	ldr x0, =GPIO_BASE
 
-	ldr r1, =FSEL_21_OUTPUT	
-	str r1, [r0, #GPIO_FSEL2]
+	ldr w1, =FSEL_21_OUTPUT	
+	str w1, [x0, #GPIO_FSEL2]
 
-	ldr r1, =GPIO_21
+	ldr w1, =GPIO_21
 
-	mov r2, #0x800000
+	mov x2, #0x800000
 
 loop:
-	str r1, [r0, #GPIO_SET0]
+	str w1, [x0, #GPIO_SET0]
 
 	bl delay
 
-	str r1, [r0, #GPIO_CLR0]
+	str w1, [x0, #GPIO_CLR0]
 
 	bl delay
 
@@ -32,9 +32,9 @@ loop:
 
 
 delay:
-	mov r10, #0
+	mov x10, #0
 delay_loop:
-	add r10, r10, #1
-	cmp r10, r2
+	add x10, x10, #1
+	cmp x10, x2
 	bne delay_loop
-	bx lr
+	ret
