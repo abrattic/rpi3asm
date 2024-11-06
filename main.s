@@ -17,8 +17,6 @@ _start:
 
 	ldr w1, =GPIO_21
 
-	mov x2, #0x800000
-
 loop:
 	str w1, [x0, #GPIO_SET0]
 
@@ -32,9 +30,8 @@ loop:
 
 
 delay:
-	mov x10, #0
+	mov x10, #0x800000
 delay_loop:
-	add x10, x10, #1
-	cmp x10, x2
+	subs x10, x10, #1
 	bne delay_loop
 	ret
