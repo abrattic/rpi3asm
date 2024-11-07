@@ -9,13 +9,21 @@
 # 1 << 21
 .equ GPIO_21, 0x200000
 
+.equ TIMER_BASE, 0x3f003000
+.equ TIMER_CLO, 0x04
+.equ TIMER_C0, 0xc
+
 _start:
 	ldr x0, =GPIO_BASE
 
-	ldr w1, =FSEL_21_OUTPUT	
+	ldr w1, =FSEL_21_OUTPUT
 	str w1, [x0, #GPIO_FSEL2]
 
 	ldr w1, =GPIO_21
+
+	ldr x2, =TIMER_BASE
+	mov w3, #0xf424
+	lsl w3, w3, #4
 
 loop:
 	str w1, [x0, #GPIO_SET0]
@@ -30,8 +38,12 @@ loop:
 
 
 delay:
-	mov x10, #0x800000
-delay_loop:
-	subs x10, x10, #1
-	bne delay_loop
+	ldr w4, [x2, #TIMER_CLO]
+	add w4, w4, w3
+
+wait_loop:
+	ldr w5, [x2, #TIMER_CLO]
+	cmp w5, w4
+	bne wait_loop
 	ret
+
