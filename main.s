@@ -38,12 +38,16 @@ loop:
 
 
 delay:
+	mov w4, #0x0
+	str w4, [x2]
+
 	ldr w4, [x2, #TIMER_CLO]
 	add w4, w4, w3
+	str w4, [x2, #TIMER_C0]
 
 wait_loop:
-	ldr w5, [x2, #TIMER_CLO]
-	cmp w5, w4
-	bne wait_loop
+	ldr w4, [x2]
+	tst w4, #0x1
+	beq wait_loop
 	ret
 
