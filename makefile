@@ -1,7 +1,23 @@
-main:   
-	aarch64-none-elf-as main.s -o main.o
-	aarch64-none-elf-ld main.o -o kernel.elf
-	aarch64-none-elf-objcopy kernel.elf -O binary kernel8.img
+CROSS_COMPILE=aarch64-none-elf-
+
+SRC = main.s
+OBJ = main.o
+ELF = kernel.elf
+IMG = kernel8.img
+
+all: $(IMG)
+
+$(OBJ): $(SRC)
+	$(CROSS_COMPILE)as $< -o $@
+
+$(ELF): $(OBJ)
+	$(CROSS_COMPILE)ld $< -o $@
+
+$(IMG): $(ELF)
+	$(CROSS_COMPILE)objcopy $< -O binary $@
 
 clean:
-	rm *.o *.elf *.img
+	rm -f *.o *.elf *.img
+
+.PHONY: all clean
+
